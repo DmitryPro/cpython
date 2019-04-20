@@ -1,6 +1,6 @@
 """Bisection algorithms."""
 
-def insort_right(a, x, lo=0, hi=None):
+def insort_right(a, x, lo=0, hi=None,key=None):
     """Insert item x in list a, and keep it sorted assuming a is sorted.
 
     If x is already in a, insert it to the right of the rightmost x.
@@ -9,10 +9,10 @@ def insort_right(a, x, lo=0, hi=None):
     slice of a to be searched.
     """
 
-    lo = bisect_right(a, x, lo, hi)
+    lo = bisect_right(a, x, lo, hi,key)
     a.insert(lo, x)
 
-def bisect_right(a, x, lo=0, hi=None):
+def bisect_right(a, x, lo=0, hi=None,key=None):
     """Return the index where to insert item x in list a, assuming a is sorted.
 
     The return value i is such that all e in a[:i] have e <= x, and all e in
@@ -23,17 +23,20 @@ def bisect_right(a, x, lo=0, hi=None):
     slice of a to be searched.
     """
 
+    need_key = key is not None
+
     if lo < 0:
         raise ValueError('lo must be non-negative')
     if hi is None:
         hi = len(a)
     while lo < hi:
         mid = (lo+hi)//2
-        if x < a[mid]: hi = mid
+        if need_key and x < key(a[mid]): hi = mid
+        elif x < a[mid]: hi = mid
         else: lo = mid+1
     return lo
 
-def insort_left(a, x, lo=0, hi=None):
+def insort_left(a, x, lo=0, hi=None,key=None):
     """Insert item x in list a, and keep it sorted assuming a is sorted.
 
     If x is already in a, insert it to the left of the leftmost x.
@@ -42,11 +45,11 @@ def insort_left(a, x, lo=0, hi=None):
     slice of a to be searched.
     """
 
-    lo = bisect_left(a, x, lo, hi)
+    lo = bisect_left(a, x, lo, hi,key)
     a.insert(lo, x)
 
 
-def bisect_left(a, x, lo=0, hi=None):
+def bisect_left(a, x, lo=0, hi=None, key=None):
     """Return the index where to insert item x in list a, assuming a is sorted.
 
     The return value i is such that all e in a[:i] have e < x, and all e in
@@ -57,13 +60,16 @@ def bisect_left(a, x, lo=0, hi=None):
     slice of a to be searched.
     """
 
+    need_key = key is not None
+
     if lo < 0:
         raise ValueError('lo must be non-negative')
     if hi is None:
         hi = len(a)
     while lo < hi:
         mid = (lo+hi)//2
-        if a[mid] < x: lo = mid+1
+        if need_key and key(a[mid]) < x: lo = mid + 1
+        elif a[mid] < x: lo = mid + 1
         else: hi = mid
     return lo
 

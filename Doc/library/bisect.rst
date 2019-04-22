@@ -90,21 +90,21 @@ lists::
             return a[i-1]
         raise ValueError
 
-    def find_le(a, x):
+    def find_le(a, x, key=None):
         'Find rightmost value less than or equal to x'
         i = bisect_right(a, x, key=key)
         if i:
             return a[i-1]
         raise ValueError
 
-    def find_gt(a, x):
+    def find_gt(a, x, key=None):
         'Find leftmost value greater than x'
         i = bisect_right(a, x, key=key)
         if i != len(a):
             return a[i]
         raise ValueError
 
-    def find_ge(a, x):
+    def find_ge(a, x, key=None):
         'Find leftmost item greater than or equal to x'
         i = bisect_left(a, x, key=key)
         if i != len(a):

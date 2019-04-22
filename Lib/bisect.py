@@ -9,7 +9,7 @@ def insort_right(a, x, lo=0, hi=None,key=None):
     slice of a to be searched.
     """
 
-    lo = bisect_right(a, x, lo, hi,key)
+    lo = bisect_right(a, key(x), lo, hi,key)
     a.insert(lo, x)
 
 def bisect_right(a, x, lo=0, hi=None,key=None):
@@ -45,7 +45,7 @@ def insort_left(a, x, lo=0, hi=None,key=None):
     slice of a to be searched.
     """
 
-    lo = bisect_left(a, x, lo, hi,key)
+    lo = bisect_left(a, key(x), lo, hi,key)
     a.insert(lo, x)
 
 

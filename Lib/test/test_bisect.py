@@ -199,6 +199,17 @@ class TestBisect:
         self.module.insort(a=data, x=25, lo=1, hi=3)
         self.assertEqual(data, [10, 20, 25, 25, 25, 30, 40, 50])
 
+    def test_key(self):
+        data = [('black', 0), ('blue', 1), ('red', 5), ('yellow', 8)]
+
+        self.assertEqual(self.module.bisect_left(data,0, key=lambda r: r[1]), ('black', 0))
+        self.assertEqual(self.module.bisect_right(data, 5, key=lambda r: r[1]), ('yellow', 0))
+
+        self.module.insort_left(data, ('white', 6), key=lambda r: r[1])
+        self.module.bisect_right(data, ('green', 2), key=lambda r: r[1])
+
+        self.assertEqual(data,[('black', 0), ('blue', 1), ('green', 2), ('red', 5), ('white', 6), ('yellow', 8)])
+
 class TestBisectPython(TestBisect, unittest.TestCase):
     module = py_bisect
 
